@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { randomHex } from '../utils';
 
 const router = Router();
 
@@ -18,12 +19,6 @@ interface BlockchainEvent {
   blockHeight: number;
   timestamp: string;
 }
-
-function randomHex(len = 64): string {
-  const chars = '0123456789abcdef';
-  return Array.from({ length: len }, () => chars[Math.floor(Math.random() * 16)]).join('');
-}
-
 let blockHeight = 837;
 
 const events: BlockchainEvent[] = [

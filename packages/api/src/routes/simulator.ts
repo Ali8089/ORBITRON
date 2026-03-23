@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { randomHex } from '../utils';
 
 const router = Router();
 
@@ -54,8 +55,7 @@ router.post('/launch', (req: Request, res: Response) => {
 
 // POST /api/v1/simulator/rogue
 router.post('/rogue', (_req: Request, res: Response) => {
-  const chars = '0123456789abcdef';
-  const txHash = Array.from({ length: 64 }, () => chars[Math.floor(Math.random() * 16)]).join('');
+  const txHash = randomHex();
 
   const rogueId = `ROGUE-${uuidv4().slice(0, 8).toUpperCase()}`;
   const rogue: Drone = {
