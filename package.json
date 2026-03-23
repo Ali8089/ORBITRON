@@ -1,0 +1,16 @@
+{
+  "name": "orbitron-utm",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=packages/api\" \"npm run dev --workspace=apps/operator-dashboard\" \"npm run dev --workspace=apps/admin-centre\" \"npm run dev --workspace=apps/drone-simulator\"",
+    "build": "npm run build --workspaces",
+    "seed": "ts-node scripts/seed-hk-data.ts && ts-node scripts/seed-demo-operators.ts",
+    "demo": "ts-node scripts/run-demo.ts"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
