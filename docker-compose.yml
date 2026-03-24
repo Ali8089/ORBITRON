@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: orbitron
+      POSTGRES_USER: orbitron
+      POSTGRES_PASSWORD: orbitron
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  influxdb:
+    image: influxdb:2.7
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: orbitron123
+      DOCKER_INFLUXDB_INIT_ORG: orbitron
+      DOCKER_INFLUXDB_INIT_BUCKET: telemetry
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: orbitron-influx-token
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+  api:
+    build: ./packages/api
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://orbitron:orbitron@postgres:5432/orbitron
+      INFLUXDB_URL: http://influxdb:8086
+      INFLUXDB_TOKEN: orbitron-influx-token
+      INFLUXDB_ORG: orbitron
+      INFLUXDB_BUCKET: telemetry
+      API_PORT: 4000
+      NODE_ENV: production
+    depends_on:
+      - postgres
+      - influxdb
+
+  operator-dashboard:
+    build: ./apps/operator-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_MAPBOX_TOKEN: ${NEXT_PUBLIC_MAPBOX_TOKEN}
+    depends_on:
+      - api
+
+  admin-centre:
+    build: ./apps/admin-centre
+    ports:
+      - "3001:3001"
+    environment:
+      NEXT_PUBLIC_MAPBOX_TOKEN: ${NEXT_PUBLIC_MAPBOX_TOKEN}
+    depends_on:
+      - api
+
+  drone-simulator:
+    build: ./apps/drone-simulator
+    ports:
+      - "3003:3003"
+    environment:
+      NEXT_PUBLIC_MAPBOX_TOKEN: ${NEXT_PUBLIC_MAPBOX_TOKEN}
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  influxdb_data:
