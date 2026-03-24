@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import Map, { Marker, Source, Layer, NavigationControl, FullscreenControl } from 'react-map-gl'
 import type { FillExtrusionLayer, FillLayer } from 'react-map-gl'
+import { getMapboxToken } from '../../../shared/mapboxToken'
 
-const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
+const MAPBOX_TOKEN = getMapboxToken()
 
 interface Drone {
   id: string
