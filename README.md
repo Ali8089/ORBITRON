@@ -52,8 +52,8 @@ npm install
 ### 2. Configure environment
 
 ```bash
-cp .env.example .env
-# Set NEXT_PUBLIC_MAPBOX_TOKEN to your Mapbox public token
+cp .env.example .env   # optional: a Mapbox demo token is already baked in for quick viewing
+# Replace NEXT_PUBLIC_MAPBOX_TOKEN with your own Mapbox public token for production
 # Get one free at https://account.mapbox.com/
 ```
 

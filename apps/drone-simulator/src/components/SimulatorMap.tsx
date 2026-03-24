@@ -3,8 +3,9 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useState, useEffect } from 'react'
 import Map, { Marker, NavigationControl } from 'react-map-gl'
+import { getMapboxToken } from '../../../shared/mapboxToken'
 
-const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
+const MAPBOX_TOKEN = getMapboxToken()
 
 interface Drone {
   id: string
