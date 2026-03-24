@@ -60,7 +60,7 @@ cp .env.example .env
 ### 3. Start all services
 
 ```bash
-npm run dev
+npm start          # alias: npm run dev
 ```
 
 This starts:
